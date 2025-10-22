@@ -23,6 +23,13 @@
          motion-reduce:transition-none;
 }
 
+@utility hover-card {
+  @apply cursor-pointer
+  shadow-lg
+  -translate-y-1
+  transition-transform;
+}
+
 * {
   box-sizing: border-box;
 }
