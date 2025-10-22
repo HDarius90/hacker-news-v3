@@ -1,4 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap');
+
 @import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Manrope', sans-serif;
+
+  --color-primary: #ff6600;
+  --color-secondary: #1e293b;
+}
+
+@utility font-heading {
+  font-family: var(--font-heading);
+}
+
+@utility hover-lift {
+  @apply cursor-pointer
+         transition-transform duration-200 ease-out
+         motion-safe:hover:-translate-y-1
+         hover:border-current
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary
+         motion-reduce:transition-none;
+}
 
 * {
   box-sizing: border-box;
@@ -11,5 +34,5 @@ body,
 }
 
 body {
-  @apply bg-gray-50 text-gray-900 antialiased;
+  @apply font-sans bg-gray-50 text-gray-900 antialiased;
 }
