@@ -1,7 +1,7 @@
 const StoryCard = () => {
   return (
     <article className='h-full flex flex-col justify-between rounded-2xl border p-4 hover:hover-card bg-white'>
-      <h2 className='text-lg font-medium leading-snug line-clamp-2'>
+      <h2 className='text-lg font-semibold leading-snug line-clamp-2'>
         <a
           href='#'
           target='_blank'
