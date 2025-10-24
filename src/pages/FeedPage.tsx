@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import StoryCard from '../components/StoryCard';
 import type { Feed, HnItem } from '../lib/hn/types';
 import { fetchFeedIds, fetchItem } from '../lib/hn/api';
-
-const PAGE_SIZE = 20;
+import { DEFAULT_PAGE_SIZE } from '../lib/hn/constants';
+import Spinner from '../components/Spinner';
 
 const FeedPage = ({ feed }: { feed: Feed }) => {
   const [page, setPage] = useState(1);
   const [ids, setIds] = useState<number[]>([]);
   const [items, setItems] = useState<(HnItem | null)[]>([]);
   const [loading, setLoading] = useState(false);
+  const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
 
   useEffect(() => {
     setLoading(true);
@@ -28,17 +29,17 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
     setLoading(true);
     setItems([]);
 
-    const start = (page - 1) * PAGE_SIZE;
-    const end = start + PAGE_SIZE;
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
     const pageIds = ids.slice(start, end);
 
     Promise.all(pageIds.map((id) => fetchItem(id)))
       .then(setItems)
       .catch((error) => console.log('Failed to load items', error))
       .finally(() => setLoading(false));
-  }, [ids, page]);
+  }, [ids, page, pageSize]);
 
-  const totalPages = ids.length ? Math.ceil(ids.length / PAGE_SIZE) : 1;
+  const totalPages = ids.length ? Math.ceil(ids.length / pageSize) : 1;
   const canPrev = page > 1;
   const canNext = page < totalPages;
 
@@ -48,10 +49,32 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
   return (
     <>
       <div>
-        <div className='mb-4 flex items-center justify-between'>
-          <div className='text-sm text-gray-600 dark:text-gray-400'>
-            Page <strong>{page}</strong> of <strong>{totalPages}</strong>
+        <div className='mb-4 flex items-center justify-between gap-4'>
+          <div className='flex items-center gap-3'>
+            <div className='text-sm text-gray-600 dark:text-gray-400'>
+              Page <strong>{page}</strong> of <strong>{totalPages}</strong>
+            </div>
+
+            <label className='text-sm text-gray-600 dark:text-gray-400'>
+              <span className='sr-only'>Items per page</span>
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  const next = Number(e.target.value) || DEFAULT_PAGE_SIZE;
+                  setPageSize(next);
+                  setPage(1);
+                }}
+                className='ml-2 px-2 py-1 border rounded bg-white text-sm'
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </label>
           </div>
+
           <div className='flex items-center gap-2'>
             <button
               onClick={goPrev}
@@ -71,9 +94,7 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
         </div>
 
         {loading ? (
-          <div className='py-40 text-center text-gray-700 text-2xl'>
-            Loading...
-          </div>
+          <Spinner />
         ) : (
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
             {items.map(
