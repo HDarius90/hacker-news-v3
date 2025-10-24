@@ -6,12 +6,18 @@ const Header = () => {
     <>
       <header className='px-6 sticky top-0 z-30 backdrop-blur border-b bg-primary'>
         <div className='justify-between px-4 py-3 flex items-center gap-4'>
-          {/* Title */}
+          <img
+            src='/public/y18.svg'
+            alt='Hacker News V3'
+            width={32}
+            height={32}
+            className='border-2 border-white'
+          />
+
           <h1 className='font-heading text-xl font-bold tracking-tight'>
             Hacker News V3
           </h1>
 
-          {/* Feed switcher */}
           <nav
             className='ml-2 flex items-center gap-1'
             role='tablist'
@@ -31,12 +37,17 @@ const Header = () => {
             </Link>
           </nav>
 
-          {/* Toolbar */}
           <div className='ml-auto flex items-center gap-2'>
-            <div className='flex justify-center hover-lift'>
-              <BiRefresh className='text-3xl' />
-            </div>
-            {/* Placeholder for theme toggle later */}
+            <button
+              type='button'
+              onClick={() => window.location.reload()}
+              aria-label='Refresh'
+              title='Refresh'
+              className='flex justify-center items-center p-1 hover-lift rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2'
+            >
+              <BiRefresh className='text-2xl' />
+            </button>
+
             <div className='h-5 w-5 bg-gray-300 dark:bg-gray-700 rounded-full' />
           </div>
         </div>
