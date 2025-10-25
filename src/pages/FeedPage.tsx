@@ -48,14 +48,14 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
 
   return (
     <>
-      <div>
+      <div className='w-full'>
         <div className='mb-4 flex items-center justify-between gap-4'>
           <div className='flex items-center gap-3'>
-            <div className='text-sm text-gray-600 dark:text-gray-400'>
+            <div className='text-sm text-gray-600 dark:text-white'>
               Page <strong>{page}</strong> of <strong>{totalPages}</strong>
             </div>
 
-            <label className='text-sm text-gray-600 dark:text-gray-400'>
+            <label className='text-sm text-gray-600'>
               <span className='sr-only'>Items per page</span>
               <select
                 value={pageSize}
@@ -64,7 +64,7 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
                   setPageSize(next);
                   setPage(1);
                 }}
-                className='ml-2 px-2 py-1 border rounded bg-white text-sm'
+                className='ml-2 px-2 py-1 border rounded bg-gray-100 dark:bg-white text-sm'
               >
                 <option value={10}>10</option>
                 <option value={20}>20</option>
@@ -79,14 +79,18 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
             <button
               onClick={goPrev}
               disabled={!canPrev}
-              className='px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 hover:bg-gray-200 '
+              className={`px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 dark:bg-gray-200 ${
+                canPrev ? 'hover:bg-gray-200 dark:hover:bg-gray-500' : ''
+              }`}
             >
               Prev
             </button>
             <button
               onClick={goNext}
               disabled={!canNext}
-              className='px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 hover:bg-gray-200'
+              className={`px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 dark:bg-gray-200 ${
+                canNext ? 'hover:bg-gray-200 dark:hover:bg-gray-500' : ''
+              }`}
             >
               Next
             </button>

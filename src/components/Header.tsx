@@ -1,36 +1,37 @@
 import { BiRefresh } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
+  const location = useLocation();
+
   return (
     <>
       <header className='px-6 sticky top-0 z-30 backdrop-blur border-b bg-primary'>
         <div className='justify-between px-4 py-3 flex items-center gap-4'>
           <img
-            src='/public/y18.svg'
+            src='/y18.svg'
             alt='Hacker News V3'
             width={32}
             height={32}
-            className='border-2 border-white'
+            className='w-8 h-8 border-2 border-white'
           />
 
           <h1 className='font-heading text-xl font-bold tracking-tight'>
             Hacker News V3
           </h1>
 
-          <nav
-            className='ml-2 flex items-center gap-1'
-            role='tablist'
-            aria-label='Feed'
-          >
+          <nav className='ml-2 flex items-center gap-1' aria-label='Feed'>
             <Link
               to='/top'
+              aria-current={location.pathname === '/top' ? 'page' : undefined}
               className='m-2 py-1.5 text-sm  border-b-2 border-transparent hover-lift'
             >
               Top
             </Link>
             <Link
               to='/new'
+              aria-current={location.pathname === '/new' ? 'page' : undefined}
               className='m-2 py-1.5 text-sm border-b-2 border-transparent hover-lift'
             >
               New
@@ -48,7 +49,7 @@ const Header = () => {
               <BiRefresh className='text-2xl' />
             </button>
 
-            <div className='h-5 w-5 bg-gray-300 dark:bg-gray-700 rounded-full' />
+            <ThemeToggle />
           </div>
         </div>
       </header>
