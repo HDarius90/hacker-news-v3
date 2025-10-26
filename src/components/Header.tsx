@@ -24,7 +24,11 @@ const Header = () => {
             Hacker News V3
           </h1>
 
-          <nav className='ml-2 flex items-center gap-1' aria-label='Feed'>
+          <nav
+            className='ml-2 flex items-center gap-1'
+            aria-label='Feed'
+            role='tablist'
+          >
             <Link
               to='/top'
               role='tab'

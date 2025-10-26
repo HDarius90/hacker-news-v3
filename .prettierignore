@@ -1,0 +1,5 @@
+# Ignore Netlify redirects file (must have exact content)
+public/_redirects
+
+# Ignore other static files that must not be reformatted
+public/**/*
