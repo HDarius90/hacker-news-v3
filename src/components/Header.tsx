@@ -41,7 +41,6 @@ const Header = () => {
           <div className='ml-auto flex items-center gap-2'>
             <Link
               to={location.pathname}
-              reloadDocument
               aria-label='Refresh'
               title='Refresh'
               className='flex justify-center items-center p-1 hover-lift rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2'
