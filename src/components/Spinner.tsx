@@ -18,6 +18,7 @@ const Spinner = ({
 }: SpinnerProps) => {
   return (
     <ClipLoader
+      data-testid='spinner'
       className={className}
       color='#ff6600'
       cssOverride={cssOverride}

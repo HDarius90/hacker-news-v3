@@ -7,7 +7,10 @@ const Header = () => {
 
   return (
     <>
-      <header className='px-6 sticky top-0 z-30 backdrop-blur border-b bg-primary'>
+      <header
+        className='px-6 sticky top-0 z-30 backdrop-blur border-b bg-primary'
+        role='banner'
+      >
         <div className='justify-between px-4 py-3 flex items-center gap-4'>
           <img
             src='/y18.svg'
@@ -24,6 +27,7 @@ const Header = () => {
           <nav className='ml-2 flex items-center gap-1' aria-label='Feed'>
             <Link
               to='/top'
+              role='tab'
               aria-current={location.pathname === '/top' ? 'page' : undefined}
               className='m-2 py-1.5 text-sm  border-b-2 border-transparent hover-lift'
             >
@@ -31,6 +35,7 @@ const Header = () => {
             </Link>
             <Link
               to='/new'
+              role='tab'
               aria-current={location.pathname === '/new' ? 'page' : undefined}
               className='m-2 py-1.5 text-sm border-b-2 border-transparent hover-lift'
             >
@@ -39,14 +44,16 @@ const Header = () => {
           </nav>
 
           <div className='ml-auto flex items-center gap-2'>
-            <Link
-              to={location.pathname}
+            <button
+              onClick={() => {
+                window.location.reload();
+              }}
               aria-label='Refresh'
               title='Refresh'
               className='flex justify-center items-center p-1 hover-lift rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2'
             >
               <BiRefresh className='text-2xl' />
-            </Link>
+            </button>
 
             <ThemeToggle />
           </div>

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { fetchFeedIds, fetchItem } from './api';
-import { BASE_URL } from './constants';
+import { API_BASE_URL } from './constants';
 
 describe('hn api', () => {
   afterEach(() => {
@@ -22,7 +22,7 @@ describe('hn api', () => {
     expect(ids).toEqual(mockIds);
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith(
-      `${BASE_URL}/topstories.json`,
+      `${API_BASE_URL}/topstories.json`,
       expect.any(Object)
     );
   });
@@ -41,7 +41,7 @@ describe('hn api', () => {
     expect(ids).toEqual(mockIds);
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith(
-      `${BASE_URL}/newstories.json`,
+      `${API_BASE_URL}/newstories.json`,
       expect.any(Object)
     );
   });
@@ -60,7 +60,7 @@ describe('hn api', () => {
     expect(item).toEqual(mockItem);
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith(
-      `${BASE_URL}/item/123.json`,
+      `${API_BASE_URL}/item/123.json`,
       expect.any(Object)
     );
   });

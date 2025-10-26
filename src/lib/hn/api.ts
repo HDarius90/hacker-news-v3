@@ -1,4 +1,4 @@
-import { BASE_URL, TIMEOUT_MS } from './constants';
+import { API_BASE_URL, TIMEOUT_MS } from './constants';
 import type { Feed, HnItem } from './types';
 
 async function getJSON<T>(url: string): Promise<T> {
@@ -16,9 +16,9 @@ async function getJSON<T>(url: string): Promise<T> {
 
 export async function fetchFeedIds(feed: Feed): Promise<number[]> {
   const path = feed === 'top' ? 'topstories' : 'newstories';
-  return getJSON<number[]>(`${BASE_URL}/${path}.json`);
+  return getJSON<number[]>(`${API_BASE_URL}/${path}.json`);
 }
 
 export async function fetchItem(id: number): Promise<HnItem | null> {
-  return getJSON<HnItem | null>(`${BASE_URL}/item/${id}.json`);
+  return getJSON<HnItem | null>(`${API_BASE_URL}/item/${id}.json`);
 }
