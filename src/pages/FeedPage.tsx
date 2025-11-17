@@ -4,28 +4,33 @@ import type { Feed, HnItem } from '../lib/hn/types';
 import { fetchFeedIds, fetchItem } from '../lib/hn/api';
 import { DEFAULT_PAGE_SIZE } from '../lib/hn/constants';
 import Spinner from '../components/Spinner';
+import { useQuery } from '@tanstack/react-query';
 
 const FeedPage = ({ feed }: { feed: Feed }) => {
   const [page, setPage] = useState(1);
-  const [ids, setIds] = useState<number[]>([]);
   const [items, setItems] = useState<(HnItem | null)[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
 
-  useEffect(() => {
-    setLoading(true);
-    setIds([]);
-    setItems([]);
-    setPage(1);
+  const { data: ids } = useQuery({
+    queryKey: ['items', feed],
+    queryFn: () => fetchFeedIds(feed),
+  });
 
-    fetchFeedIds(feed)
-      .then(setIds)
-      .catch((error) => console.log('Failed to load feed IDs', error))
-      .finally(() => setLoading(false));
-  }, [feed]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setIds([]);
+  //   setItems([]);
+  //   setPage(1);
+
+  //   fetchFeedIds(feed)
+  //     .then(setIds)
+  //     .catch((error) => console.log('Failed to load feed IDs', error))
+  //     .finally(() => setLoading(false));
+  // }, [feed]);
 
   useEffect(() => {
-    if (!ids.length) return;
+    if (!ids) return;
     setLoading(true);
     setItems([]);
 
@@ -33,18 +38,23 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
     const end = start + pageSize;
     const pageIds = ids.slice(start, end);
 
-    Promise.all(pageIds.map((id) => fetchItem(id)))
-      .then(setItems)
+    Promise.allSettled(pageIds.map((id) => fetchItem(id)))
+      .then((results) => {
+        const items = results
+          .filter((result) => result.status === 'fulfilled')
+          .map((result) => result.value);
+        setItems(items);
+      })
       .catch((error) => console.log('Failed to load items', error))
       .finally(() => setLoading(false));
   }, [ids, page, pageSize]);
 
-  const totalPages = ids.length ? Math.ceil(ids.length / pageSize) : 1;
+  const totalPages = ids ? Math.ceil(ids.length / pageSize) : 1;
   const canPrev = page > 1;
   const canNext = page < totalPages;
 
-  const goPrev = () => canPrev && setPage(page - 1);
-  const goNext = () => canNext && setPage(page + 1);
+  const goPrev = () => !loading && canPrev && setPage(page - 1);
+  const goNext = () => !loading && canNext && setPage(page + 1);
 
   return (
     <>
@@ -78,7 +88,7 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
           <div className='flex items-center gap-2'>
             <button
               onClick={goPrev}
-              disabled={!canPrev}
+              disabled={loading || !canPrev}
               className={`px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 dark:bg-gray-200 ${
                 canPrev ? 'hover:bg-gray-200 dark:hover:bg-gray-500' : ''
               }`}
@@ -87,7 +97,7 @@ const FeedPage = ({ feed }: { feed: Feed }) => {
             </button>
             <button
               onClick={goNext}
-              disabled={!canNext}
+              disabled={loading || !canNext}
               className={`px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 dark:bg-gray-200 ${
                 canNext ? 'hover:bg-gray-200 dark:hover:bg-gray-500' : ''
               }`}

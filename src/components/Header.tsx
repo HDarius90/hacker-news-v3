@@ -1,5 +1,5 @@
 import { BiRefresh } from 'react-icons/bi';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
@@ -29,22 +29,26 @@ const Header = () => {
             aria-label='Feed'
             role='tablist'
           >
-            <Link
+            <NavLink
               to='/top'
               role='tab'
               aria-current={location.pathname === '/top' ? 'page' : undefined}
-              className='m-2 py-1.5 text-sm  border-b-2 border-transparent hover-lift'
+              className={({ isActive }) =>
+                (isActive ? 'active' : '') +
+                ' m-2 py-1.5 text-sm border-b-2 border-transparent hover-lift'
+              }
+              // className='m-2 py-1.5 text-sm  border-b-2 border-transparent hover-lift'
             >
               Top
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to='/new'
               role='tab'
               aria-current={location.pathname === '/new' ? 'page' : undefined}
               className='m-2 py-1.5 text-sm border-b-2 border-transparent hover-lift'
             >
               New
-            </Link>
+            </NavLink>
           </nav>
 
           <div className='ml-auto flex items-center gap-2'>
