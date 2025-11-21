@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { fetchFeedIds, fetchItem } from './api';
+import { fetchFeedIds, fetchPost } from './api';
 import { API_BASE_URL } from './constants';
 
 describe('hn api', () => {
@@ -55,7 +55,7 @@ describe('hn api', () => {
     }));
     vi.stubGlobal('fetch', mockFetch);
 
-    const item = await fetchItem(123);
+    const item = await fetchPost(123);
 
     expect(item).toEqual(mockItem);
     expect(mockFetch).toHaveBeenCalledTimes(1);

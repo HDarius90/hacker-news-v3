@@ -19,6 +19,6 @@ export async function fetchFeedIds(feed: Feed): Promise<number[]> {
   return getJSON<number[]>(`${API_BASE_URL}/${path}.json`);
 }
 
-export async function fetchItem(id: number): Promise<HnItem | null> {
+export async function fetchPost(id: number): Promise<HnItem | null> {
   return getJSON<HnItem | null>(`${API_BASE_URL}/item/${id}.json`);
 }

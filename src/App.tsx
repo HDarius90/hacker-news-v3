@@ -1,16 +1,15 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Spinner from './components/Spinner';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { queryClient } from './react-query/queryClient';
 
 const Layout = lazy(() => import('./layout/Layout'));
 const FeedPage = lazy(() => import('./pages/FeedPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
-  const queryClient = new QueryClient();
-
   return (
     <>
       <QueryClientProvider client={queryClient}>
